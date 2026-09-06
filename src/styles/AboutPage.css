@@ -1,0 +1,151 @@
+.about-page {
+  display: block;
+  max-width: 1440px;
+  padding: clamp(100px, 13vw, 190px) 7vw clamp(110px, 15vw, 210px);
+}
+
+.about-page__intro {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: clamp(28px, 7vw, 110px);
+  align-items: start;
+  padding-bottom: clamp(54px, 8vw, 105px);
+  border-bottom: 1px solid var(--line);
+}
+
+.about-page__intro .section-number {
+  padding-top: 8px;
+}
+
+.about-page__intro .eyebrow {
+  margin-bottom: 25px;
+}
+
+.about-page__intro h1 {
+  max-width: 900px;
+  margin: 0;
+  color: var(--ink);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(64px, 12vw, 172px);
+  font-weight: 400;
+  letter-spacing: -.075em;
+  line-height: .78;
+}
+
+.about-page__mark {
+  color: var(--red);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 42px;
+  line-height: 1;
+  transform: rotate(18deg);
+}
+
+.about-page__body {
+  display: grid;
+  grid-template-columns: minmax(240px, .85fr) minmax(300px, 1fr);
+  gap: clamp(50px, 12vw, 180px);
+  align-items: start;
+  padding-top: clamp(60px, 9vw, 120px);
+}
+
+.about-page__portrait-wrap {
+  position: relative;
+  max-width: 410px;
+  margin-left: clamp(28px, 5vw, 70px);
+}
+
+.about-page__portrait-label {
+  display: block;
+  margin: 0 0 12px -24px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: .16em;
+}
+
+.about-page .profile-photo {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: auto;
+  min-height: 160px;
+  padding: 0;
+  border: 1px solid var(--gold);
+  background-color: var(--soft);
+  box-shadow: 18px 18px 0 -17px var(--paper), 19px 19px 0 -17px var(--gold);
+}
+
+.about-page .profile-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.about-page__copy {
+  max-width: 560px;
+  padding-top: clamp(15px, 5vw, 75px);
+}
+
+.about-page__copy h2 {
+  margin: 0 0 44px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(42px, 5vw, 74px);
+  font-weight: 400;
+  letter-spacing: -.055em;
+  line-height: .94;
+}
+
+.about-page__copy h2 em {
+  color: var(--red);
+  font-style: italic;
+}
+
+.about-page .statement-copy {
+  max-width: 390px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+@media (max-width: 850px) {
+  .about-page {
+    padding-top: 86px;
+  }
+
+  .about-page__intro {
+    grid-template-columns: 1fr auto;
+    gap: 28px;
+  }
+
+  .about-page__intro .section-number {
+    grid-column: 1 / -1;
+  }
+
+  .about-page__intro h1 {
+    font-size: clamp(58px, 18vw, 112px);
+  }
+
+  .about-page__body {
+    grid-template-columns: 1fr;
+    gap: 70px;
+  }
+
+  .about-page__portrait-wrap {
+    width: min(78vw, 360px);
+    margin-left: 24px;
+  }
+
+  .about-page__copy {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-page__mark {
+    font-size: 30px;
+  }
+
+  .about-page__portrait-wrap {
+    width: calc(100% - 24px);
+  }
+}
