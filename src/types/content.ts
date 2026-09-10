@@ -1,4 +1,4 @@
-export type PaintingStatus = 'available' | 'sold' | 'featured'
+export type PaintingStatus = 'available' | 'sold' | 'featured' | 'murals'
 
 export interface Settings {
   id: 1
@@ -6,7 +6,6 @@ export interface Settings {
   hero_tagline: string | null
   about_text: string | null
   profile_photo_url: string | null
-  hero_image_url: string | null
   instagram_url: string | null
   youtube_url: string | null
   whatsapp_number: string | null

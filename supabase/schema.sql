@@ -4,12 +4,19 @@ create table if not exists public.settings (
   hero_tagline text,
   about_text text,
   profile_photo_url text,
-  hero_image_url text,
   instagram_url text,
   youtube_url text,
   whatsapp_number text,
   tiktok_url text,
   contact_email text,
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.artist_intro (
+  id integer primary key default 1 check (id = 1),
+  title text,
+  description text,
+  image_url text,
   updated_at timestamptz not null default now()
 );
 
@@ -21,24 +28,32 @@ create table if not exists public.paintings (
   medium text,
   size text,
   description text,
-  status text not null default 'available' check (status in ('available', 'sold', 'featured')),
+  status text not null default 'available' check (status in ('available', 'sold', 'featured', 'murals')),
   display_order integer not null default 0,
   created_at timestamptz not null default now()
 );
 
+alter table public.paintings drop constraint if exists paintings_status_check;
+alter table public.paintings add constraint paintings_status_check check (status in ('available', 'sold', 'featured', 'murals'));
+
 alter table public.settings enable row level security;
+alter table public.artist_intro enable row level security;
 alter table public.paintings enable row level security;
 
 drop policy if exists "Public can read settings" on public.settings;
 create policy "Public can read settings" on public.settings for select using (true);
 
+drop policy if exists "Public can read artist intro" on public.artist_intro;
+create policy "Public can read artist intro" on public.artist_intro for select using (true);
+
 drop policy if exists "Public can read paintings" on public.paintings;
 create policy "Public can read paintings" on public.paintings for select using (true);
 
--- The browser admin uses Supabase Auth. Restrict writes to authenticated users,
--- then limit membership further with a user profile/role policy in production.
 drop policy if exists "Authenticated users manage settings" on public.settings;
 create policy "Authenticated users manage settings" on public.settings for all to authenticated using (true) with check (true);
+
+drop policy if exists "Authenticated users manage artist intro" on public.artist_intro;
+create policy "Authenticated users manage artist intro" on public.artist_intro for all to authenticated using (true) with check (true);
 
 drop policy if exists "Authenticated users manage paintings" on public.paintings;
 create policy "Authenticated users manage paintings" on public.paintings for all to authenticated using (true) with check (true);

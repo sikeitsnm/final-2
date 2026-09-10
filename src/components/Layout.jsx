@@ -11,6 +11,8 @@ function Arrow() { return <span aria-hidden="true">↗</span> }
 function Header() {
   const { settings } = useSiteContent()
   const [menuOpen, setMenuOpen] = useState(false)
+  const location = useLocation()
+  const isHome = location.pathname === '/'
   const whatsappUrl = settings.whatsapp_number ? `https://wa.me/${settings.whatsapp_number.replace(/\D/g, '')}` : '/contact'
 
   useEffect(() => {
@@ -22,7 +24,7 @@ function Header() {
   }, [])
 
   return <header className="rang-header page-entrance page-entrance--header">
-    <Link className="rang-logo" to="/">{settings.artist_name}<span>.</span></Link>
+    {!isHome && <Link className="rang-logo home-return-button" to="/" aria-label="Back to homepage">Back home <span aria-hidden="true">↗</span></Link>}
     <nav id="main-navigation" className={menuOpen ? 'rang-nav is-open' : 'rang-nav'} aria-label="Main navigation">
       <NavLink to="/gallery" onClick={() => setMenuOpen(false)}>Gallery</NavLink>
       <NavLink to="/about" onClick={() => setMenuOpen(false)}>About</NavLink>

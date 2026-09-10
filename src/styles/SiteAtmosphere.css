@@ -172,7 +172,7 @@
 
 .art-grid.featured-home-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 58px 24px;
 }
 
@@ -193,6 +193,7 @@
 .featured-home-grid .art-card:nth-child(1) { animation-delay: .08s; }
 .featured-home-grid .art-card:nth-child(2) { animation-delay: .2s; }
 .featured-home-grid .art-card:nth-child(3) { animation-delay: .32s; }
+.featured-home-grid .art-card:nth-child(4) { animation-delay: .44s; }
 
 .featured-home-grid .art-image-wrap {
   animation: featuredCardFloat 6s ease-in-out 1.3s infinite;
@@ -200,6 +201,7 @@
 
 .featured-home-grid .art-card:nth-child(2) .art-image-wrap { animation-delay: 1.65s; }
 .featured-home-grid .art-card:nth-child(3) .art-image-wrap { animation-delay: 2s; }
+.featured-home-grid .art-card:nth-child(4) .art-image-wrap { animation-delay: 2.35s; }
 
 @keyframes featuredCardReveal {
   from { opacity: 0; transform: translateY(34px) scale(.97); }
@@ -291,6 +293,8 @@
 
 .featured-home-grid .page-entrance:nth-child(3),
 .art-grid .page-entrance:nth-child(3) { animation-delay: 360ms; }
+
+.featured-home-grid .page-entrance:nth-child(4) { animation-delay: 480ms; }
 
 @keyframes page-entrance-in {
   from {

@@ -71,6 +71,7 @@
   border: 1px solid var(--gold);
   background-color: var(--soft);
   box-shadow: 18px 18px 0 -17px var(--paper), 19px 19px 0 -17px var(--gold);
+  contain: layout style paint;
 }
 
 .about-page .profile-photo img {

@@ -24,17 +24,24 @@ export async function getCurrentSession() {
 
 export async function fetchSiteContent() {
   const client = requireSupabase()
-  const [{ data: settings, error: settingsError }, { data: paintings, error: paintingsError }] = await Promise.all([
+  const [{ data: settings, error: settingsError }, { data: artistIntro, error: introError }, { data: paintings, error: paintingsError }] = await Promise.all([
     client.from('settings').select('*').eq('id', 1).maybeSingle(),
+    client.from('artist_intro').select('*').eq('id', 1).maybeSingle(),
     client.from('paintings').select('*').order('display_order', { ascending: true }).order('created_at', { ascending: false }),
   ])
   if (settingsError) throw settingsError
+  if (introError) throw introError
   if (paintingsError) throw paintingsError
-  return { settings, paintings: paintings || [] }
+  return { settings, artistIntro, paintings: paintings || [] }
 }
 
 export async function saveSettings(values) {
   const { error } = await requireSupabase().from('settings').upsert({ id: 1, ...values }, { onConflict: 'id' })
+  if (error) throw error
+}
+
+export async function saveArtistIntro(values) {
+  const { error } = await requireSupabase().from('artist_intro').upsert({ id: 1, ...values }, { onConflict: 'id' })
   if (error) throw error
 }
 

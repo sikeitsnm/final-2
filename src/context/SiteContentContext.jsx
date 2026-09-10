@@ -8,12 +8,20 @@ const fallbackSettings = {
   hero_tagline: 'Add your tagline in the admin panel',
   about_text: 'Sugam Tamang is an artist whose paintings explore quiet landscapes, natural light, and the emotional space between memory and place.',
   profile_photo_url: null,
-  hero_image_url: null,
   instagram_url: null,
   youtube_url: null,
   whatsapp_number: null,
   tiktok_url: null,
   contact_email: null,
+}
+
+const fallbackArtistIntro = {
+  title: 'About the artist',
+  description: 'Add artist intro and image in the admin panel',
+  image_url: null,
+  image_url_1: null,
+  image_url_2: null,
+  image_url_3: null,
 }
 
 const contentCacheKey = 'rang-site-content'
@@ -38,8 +46,15 @@ function getCachedContent() {
 
 function normalizeContent(content) {
   const paintings = Array.isArray(content?.paintings) ? content.paintings : []
+  const artistIntro = content?.artistIntro || {}
+
   return {
     settings: { ...fallbackSettings, ...(content?.settings || {}) },
+    artistIntro: {
+      ...fallbackArtistIntro,
+      ...artistIntro,
+      image_url: artistIntro.image_url ?? artistIntro.image_url_1 ?? artistIntro.image_url_2 ?? artistIntro.image_url_3 ?? null,
+    },
     paintings,
   }
 }
@@ -47,6 +62,7 @@ function normalizeContent(content) {
 export function SiteContentProvider({ children }) {
   const cachedContent = getCachedContent()
   const [settings, setSettings] = useState(() => ({ ...fallbackSettings, ...(cachedContent?.settings || {}) }))
+  const [artistIntro, setArtistIntro] = useState(() => ({ ...fallbackArtistIntro, ...(cachedContent?.artistIntro || {}) }))
   const [paintings, setPaintings] = useState(() => shuffleAvailable(Array.isArray(cachedContent?.paintings) ? cachedContent.paintings : []))
   const [loading, setLoading] = useState(!cachedContent)
   const [error, setError] = useState('')
@@ -58,15 +74,17 @@ export function SiteContentProvider({ children }) {
     try {
       const nextContent = normalizeContent(await fetchSiteContent())
       await preloadImages([
-        nextContent.settings.hero_image_url,
         nextContent.settings.profile_photo_url,
+        nextContent.artistIntro.image_url,
         ...nextContent.paintings.map((painting) => painting.image_url),
       ])
       setSettings(nextContent.settings)
+      setArtistIntro(nextContent.artistIntro)
       setPaintings(shuffleAvailable(nextContent.paintings))
       localStorage.setItem(contentCacheKey, JSON.stringify(nextContent))
     } catch (fetchError) {
       setSettings(fallbackSettings)
+      setArtistIntro(fallbackArtistIntro)
       setPaintings([])
       setError(fetchError.message)
     } finally {
@@ -80,7 +98,7 @@ export function SiteContentProvider({ children }) {
     loadContent()
   }, [])
 
-  return <SiteContentContext.Provider value={{ settings, paintings, loading, error, loadContent }}>
+  return <SiteContentContext.Provider value={{ settings, artistIntro, paintings, loading, error, loadContent }}>
     {children}
   </SiteContentContext.Provider>
 }

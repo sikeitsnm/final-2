@@ -31,7 +31,7 @@ export default function AboutPage() {
       <div className="about-page__portrait-wrap">
         <span className="about-page__portrait-label">PORTRAIT / 01</span>
         <div className="profile-photo">
-          {settings.profile_photo_url ? <img src={settings.profile_photo_url} alt={settings.artist_name} /> : <span>PROFILE PHOTO COMING SOON</span>}
+          {settings.profile_photo_url ? <img src={settings.profile_photo_url} alt={settings.artist_name} loading="lazy" decoding="async" /> : <span>PROFILE PHOTO COMING SOON</span>}
         </div>
       </div>
       <div className="about-page__copy">
