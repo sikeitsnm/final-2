@@ -53,6 +53,14 @@ export async function uploadPaintingImage(file) {
   return { path, url: client.storage.from('paintings').getPublicUrl(path).data.publicUrl }
 }
 
+export async function uploadWebsiteIcon(file) {
+  const client = requireSupabase()
+  const path = `site-icons/${createUploadId()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '-')}`
+  const { error } = await client.storage.from('site-assets').upload(path, file, { upsert: false })
+  if (error) throw error
+  return client.storage.from('site-assets').getPublicUrl(path).data.publicUrl
+}
+
 export async function savePainting(values, imageFile, currentImageUrl) {
   const client = requireSupabase()
   let imageUrl = currentImageUrl || null

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useSiteContent } from '../../context/useSiteContent'
-import ArtistIntro from '../../components/ArtistIntro'
+import ArtistIntro from './ArtistIntro'
 import videoPoster from '../../assets/bg-poster.jpg'
 
 function Arrow() { return <span aria-hidden="true">↗</span> }

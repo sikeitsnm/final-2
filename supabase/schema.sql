@@ -4,6 +4,7 @@ create table if not exists public.settings (
   hero_tagline text,
   about_text text,
   profile_photo_url text,
+  website_icon_url text default '/website-icon.png',
   instagram_url text,
   youtube_url text,
   whatsapp_number text,
@@ -59,9 +60,20 @@ drop policy if exists "Authenticated users manage paintings" on public.paintings
 create policy "Authenticated users manage paintings" on public.paintings for all to authenticated using (true) with check (true);
 
 insert into storage.buckets (id, name, public) values ('paintings', 'paintings', true) on conflict (id) do nothing;
+insert into storage.buckets (id, name, public) values ('site-assets', 'site-assets', true) on conflict (id) do nothing;
+
 drop policy if exists "Public can view painting images" on storage.objects;
 create policy "Public can view painting images" on storage.objects for select using (bucket_id = 'paintings');
 drop policy if exists "Authenticated users upload painting images" on storage.objects;
 create policy "Authenticated users upload painting images" on storage.objects for insert to authenticated with check (bucket_id = 'paintings');
 drop policy if exists "Authenticated users delete painting images" on storage.objects;
 create policy "Authenticated users delete painting images" on storage.objects for delete to authenticated using (bucket_id = 'paintings');
+
+drop policy if exists "Public can view website icon files" on storage.objects;
+create policy "Public can view website icon files" on storage.objects for select using (bucket_id = 'site-assets');
+drop policy if exists "Authenticated users upload website icon files" on storage.objects;
+create policy "Authenticated users upload website icon files" on storage.objects for insert to authenticated with check (bucket_id = 'site-assets');
+drop policy if exists "Authenticated users update website icon files" on storage.objects;
+create policy "Authenticated users update website icon files" on storage.objects for update to authenticated using (bucket_id = 'site-assets') with check (bucket_id = 'site-assets');
+drop policy if exists "Authenticated users delete website icon files" on storage.objects;
+create policy "Authenticated users delete website icon files" on storage.objects for delete to authenticated using (bucket_id = 'site-assets');

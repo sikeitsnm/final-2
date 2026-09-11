@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import Layout, { ScrollToTop } from './components/Layout'
+import Layout, { ScrollToTop } from './pages/public/Layout'
 import { SiteContentProvider } from './context/SiteContentContext'
 import Home from './pages/public/Home'
 import AboutPage from './pages/public/AboutPage'
@@ -15,7 +15,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/gallery/:slug?" element={<GalleryPage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Route>
         <Route path="/admin/*" element={<Admin />} />

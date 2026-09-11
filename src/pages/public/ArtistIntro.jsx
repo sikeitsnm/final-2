@@ -1,4 +1,5 @@
-import '../styles/ArtistIntro.css'
+import '../../styles/ArtistIntro.css'
+import posterImage from '../../assets/bg-poster.jpg'
 
 export default function ArtistIntro({ intro, loading }) {
   if (loading) {
@@ -18,7 +19,7 @@ export default function ArtistIntro({ intro, loading }) {
 
   const imageUrl = intro.image_url || intro.image_url_1 || intro.image_url_2 || intro.image_url_3
 
-  return <section className="artist-intro">
+  return <section className="artist-intro" style={{ backgroundImage: `linear-gradient(90deg, rgba(244, 238, 226, 0.93) 0%, rgba(244, 238, 226, 0.82) 38%, rgba(244, 238, 226, 0.7) 100%), url(${posterImage})` }}>
     <div className="artist-intro__container">
       <div className="artist-intro__content">
         <p className="artist-intro__label">ABOUT THE ARTIST</p>

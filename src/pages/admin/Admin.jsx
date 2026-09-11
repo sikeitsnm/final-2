@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import '../../styles/Admin.css'
-import { deletePainting, fetchSiteContent, getCurrentSession, savePainting, saveSettings, saveArtistIntro, signIn, signOut } from '../../lib/content'
+import { deletePainting, fetchSiteContent, getCurrentSession, savePainting, saveSettings, saveArtistIntro, signIn, signOut, uploadWebsiteIcon } from '../../lib/content'
 
 const emptyPainting = {
   title: '',
@@ -17,6 +17,7 @@ const emptySettings = {
   hero_tagline: '',
   about_text: '',
   profile_photo_url: '',
+  website_icon_url: '/website-icon.png',
   instagram_url: '',
   youtube_url: '',
   whatsapp_number: '',
@@ -27,7 +28,7 @@ const emptyArtistIntro = { title: '', description: '', image_url: '' }
 
 const settingGroups = [
   { title: 'Identity', fields: ['artist_name', 'hero_tagline', 'about_text'] },
-  { title: 'Images', fields: ['profile_photo_url'] },
+  { title: 'Images', fields: ['profile_photo_url', 'website_icon_url'] },
   {
     title: 'Social and contact',
     fields: ['instagram_url', 'youtube_url', 'whatsapp_number', 'tiktok_url', 'contact_email'],
@@ -39,6 +40,7 @@ const settingHelp = {
   hero_tagline: 'A short line for the artist introduction.',
   about_text: 'Used for the home introduction, artist note, and about page.',
   profile_photo_url: 'Paste a public image URL for the about page portrait.',
+  website_icon_url: 'Current browser/admin icon. Leave as the default to keep using the existing logo.',
   instagram_url: 'Full Instagram profile URL.',
   youtube_url: 'Full YouTube channel URL.',
   whatsapp_number: 'Phone number with country code, numbers only is best.',
@@ -68,6 +70,8 @@ export default function Admin() {
   const [statusFilter, setStatusFilter] = useState('all')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showWebsiteIconEditor, setShowWebsiteIconEditor] = useState(false)
+  const [websiteIconFile, setWebsiteIconFile] = useState(null)
 
   const imagePreview = useMemo(() => (imageFile ? URL.createObjectURL(imageFile) : painting.image_url), [imageFile, painting.image_url])
   const filteredPaintings = useMemo(
@@ -203,6 +207,28 @@ export default function Admin() {
     setEditingImageFile(null)
   }
 
+  async function handleWebsiteIconSave() {
+    if (!websiteIconFile) {
+      setMessage('Choose a file first.')
+      return
+    }
+
+    setLoading(true)
+    try {
+      const uploadedUrl = await uploadWebsiteIcon(websiteIconFile)
+      const nextSettings = { ...settings, website_icon_url: uploadedUrl }
+      await saveSettings(nextSettings)
+      setSettings(nextSettings)
+      setWebsiteIconFile(null)
+      setShowWebsiteIconEditor(false)
+      setMessage('Website icon updated.')
+    } catch (error) {
+      setMessage(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     getCurrentSession()
       .then((currentSession) => {
@@ -243,11 +269,28 @@ export default function Admin() {
   return (
     <main className="admin-page">
       <header className="admin-header">
-        <div>
-          <p className="admin-eyebrow">CONTENT MANAGER</p>
-          <h1>The Studio</h1>
-          <p className="admin-intro">Keep the public site current from one place.</p>
+        <div className="admin-brand">
+          <div>
+            <h1>The Studio</h1>
+            <p className="admin-intro">Keep the public site current from one place.</p>
+          </div>
         </div>
+        {showWebsiteIconEditor && (
+          <div className="admin-brand__editor">
+            <label className="admin-brand__upload-wrap">
+              Upload website icon
+              <input type="file" accept="image/*" onChange={(event) => setWebsiteIconFile(event.target.files?.[0] || null)} />
+            </label>
+            <div className="admin-brand__editor-actions">
+              <button type="button" onClick={handleWebsiteIconSave} disabled={loading || !websiteIconFile}>
+                {loading ? 'Saving...' : 'Save icon'}
+              </button>
+              <button type="button" className="admin-button-secondary" onClick={() => { setShowWebsiteIconEditor(false); setWebsiteIconFile(null) }}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
         <div className="admin-header-actions">
           <button type="button" className="admin-button-secondary" onClick={load} disabled={loading}>
             {loading ? 'Refreshing...' : 'Refresh content'}

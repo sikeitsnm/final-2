@@ -370,8 +370,11 @@ h2 em {
 }
 
 .marquee {
-    border-bottom: 1px solid var(--line);
-    border-top: 1px solid var(--line);
+    position: relative;
+    margin-top: -1px;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    background: transparent;
     color: var(--gold);
     letter-spacing: .18em;
     text-transform: uppercase;
@@ -384,6 +387,7 @@ h2 em {
 .marquee div {
     width: max-content;
     animation: 28s linear infinite marquee;
+    opacity: 0.95;
 }
 
 @keyframes marquee {
@@ -601,6 +605,7 @@ h2 {
 .art-image-wrap {
     background: var(--soft);
     border-radius: 16px;
+    aspect-ratio: 1 / 1;
     position: relative;
     overflow: hidden;
     contain: layout style paint;
@@ -609,20 +614,17 @@ h2 {
 }
 
 .art-image {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 1 / 1;
     filter: saturate(.72);
     object-fit: cover;
     width: 100%;
+    height: 100%;
     transition:
         filter .45s,
         transform .7s cubic-bezier(.2, .7, .2, 1);
     display: block;
     will-change: filter, transform;
     backface-visibility: hidden;
-}
-
-.art-card:nth-child(2n) .art-image {
-    aspect-ratio: 5 / 6;
 }
 
 .art-card:hover .art-image {
@@ -811,7 +813,17 @@ h2 {
 
 .footer-top {
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 36px;
     display: flex;
+}
+
+.footer-branding {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+    flex: 1;
 }
 
 .footer-top p {
@@ -819,6 +831,32 @@ h2 {
     margin: 0;
     font-size: 11px;
     line-height: 1.7;
+}
+
+.home-footer__feature {
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.home-footer__label {
+    color: var(--paper);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.home-footer__link {
+    color: var(--paper);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
 }
 
 .footer-links {
@@ -935,6 +973,15 @@ h2 {
 }
 
 @media (width <= 850px) {
+    .footer-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .home-footer__feature {
+        max-width: 100%;
+    }
+
     .rang-header {
         height: 65px;
     }

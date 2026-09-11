@@ -8,6 +8,7 @@ const fallbackSettings = {
   hero_tagline: 'Add your tagline in the admin panel',
   about_text: 'Sugam Tamang is an artist whose paintings explore quiet landscapes, natural light, and the emotional space between memory and place.',
   profile_photo_url: null,
+  website_icon_url: '/website-icon.png',
   instagram_url: null,
   youtube_url: null,
   whatsapp_number: null,

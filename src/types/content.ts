@@ -6,6 +6,7 @@ export interface Settings {
   hero_tagline: string | null
   about_text: string | null
   profile_photo_url: string | null
+  website_icon_url: string | null
   instagram_url: string | null
   youtube_url: string | null
   whatsapp_number: string | null

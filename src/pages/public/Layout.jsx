@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { FaEnvelope, FaInstagram, FaTiktok, FaWhatsapp, FaYoutube } from 'react-icons/fa6'
-import { useSiteContent } from '../context/useSiteContent'
-import '../styles/About.css'
-import '../styles/SiteAtmosphere.css'
-import '../styles/VideoHero.css'
+import { useSiteContent } from '../../context/useSiteContent'
+import '../../styles/About.css'
+import '../../styles/SiteAtmosphere.css'
+import '../../styles/VideoHero.css'
 
 function Arrow() { return <span aria-hidden="true">↗</span> }
 
@@ -50,7 +50,13 @@ function Footer() {
 
 export function ScrollToTop() {
   const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  const previousPathname = useRef(pathname)
+
+  useEffect(() => {
+    const stayingWithinGallery = previousPathname.current.startsWith('/gallery') && pathname.startsWith('/gallery')
+    if (!stayingWithinGallery) window.scrollTo(0, 0)
+    previousPathname.current = pathname
+  }, [pathname])
   return null
 }
 
