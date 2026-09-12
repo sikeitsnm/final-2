@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
 
+import openGraphImage from '../assets/open.jpeg'
+
 export default function SEO({
   title = 'Sugam Tamang',
   description = 'Original paintings by Sugam Tamang.',
   canonical = '/',
-  ogImage = '/og-image.svg',
+  ogImage = openGraphImage,
   ogType = 'website',
   jsonLd,
 }) {
